@@ -10,10 +10,6 @@ A minimal SOCKS5 proxy built on [Dante](https://www.inet.no/dante/) (`danted`), 
 |---|---|
 | `start.sh` | One-shot installer for a bare Linux VPS (Ubuntu/Debian, systemd) — no Docker needed |
 
-### What was fixed from the original version
-
-The original `Dockerfile` baked a static `external: eth0` line into `danted.conf` **at build time**. On some container platforms the runtime network interface isn't named `eth0`, which makes `danted` fail to start with an error like `ioctl: SIOCGIFINDEX: No such device`. This version moves config generation into `entrypoint.sh`, which runs when the container actually starts and auto-detects the correct interface (falling back to `eth0` only if detection fails). It also makes the username/password/port configurable via environment variables instead of being hardcoded, and `start.sh` now has a proper shebang, a root check, and accepts custom credentials.
-
 ---
 
 ## ⚠️ Before you deploy anywhere public
