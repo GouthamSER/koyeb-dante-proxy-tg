@@ -8,8 +8,6 @@ A minimal SOCKS5 proxy built on [Dante](https://www.inet.no/dante/) (`danted`), 
 
 | File | Purpose |
 |---|---|
-| `Dockerfile` | Builds the container image for Koyeb / JustRunMy.App / Render / any Docker host |
-| `entrypoint.sh` | Runs at **container start** — detects the real network interface and writes `danted.conf` |
 | `start.sh` | One-shot installer for a bare Linux VPS (Ubuntu/Debian, systemd) — no Docker needed |
 
 ### What was fixed from the original version
@@ -42,17 +40,6 @@ sudo bash start.sh myuser mypassword 1080
 The script installs Dante, creates the proxy user, writes the config, opens the port in `ufw` if present, and prints your connection details (including your VPS's public IP) at the end.
 
 ---
-
-## Method 2 — Any other Docker host (JustRunMy.App, Render, Railway, Fly.io, your own server, etc.)
-
-```bash
-docker build -t tg-socks5-proxy .
-docker run -d -p 1080:1080 \
-  -e PROXY_USER=myuser \
-  -e PROXY_PASS=mypassword \
-  -e PROXY_PORT=1080 \
-  tg-socks5-proxy
-```
 
 **Important caveat:** SOCKS5 is a raw TCP protocol, not HTTP. Many beginner-friendly PaaS platforms (Render's Web Services, and JustRunMy.App's standard port mapping at the time of writing) only forward **HTTP/HTTPS** traffic on the public port they give you — a raw TCP SOCKS5 connection won't get through even though the container is running fine internally. Before relying on one of these for public access, check the provider's docs for an explicit "TCP proxy" / "raw TCP port" option. If that's not available, use Koyeb's TCP Proxy or a plain VPS instead — both are confirmed to support raw TCP.
 
