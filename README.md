@@ -31,8 +31,9 @@ sudo bash start.sh
 
 # or with your own credentials/port
 sudo bash start.sh myuser mypassword 1080
-If using Dante (danted):
-sudo systemctl stop danted (to stop)
+
+# If using Dante (danted): (to stop)
+sudo systemctl stop danted 
 ```
 
 The script installs Dante, creates the proxy user, writes the config, opens the port in `ufw` if present, and prints your connection details (including your VPS's public IP) at the end.
